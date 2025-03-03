@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: #fffaf0; /* Light cream background */
+    color: #5a3e2b; /* Rich brown text */
+    font-family: Arial, sans-serif;
+}
+
+.alert {
+    background-color: #b91c1c; /* Tailwind red-700 */
+    color: #ffffff;
+    font-weight: bold;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+h1 {
+    color: #5a3e2b; /* Rich brown */
+}
