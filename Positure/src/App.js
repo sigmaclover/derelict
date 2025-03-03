@@ -7,31 +7,26 @@ import './App.css';
 const App = () => {
   const webcamRef = useRef(null);
   const [postureStatus, setPostureStatus] = useState('Unknown');
+  const missedDetections = useRef(0);
 
   useEffect(() => {
     const runPoseDetection = async () => {
-      const detector = await poseDetection.createDetector(
-        poseDetection.SupportedModels.BlazePose,
-        {
-          runtime: 'tfjs',
-        }
-      );
+      const detector = await poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
+        runtime: 'tfjs',
+      });
 
       const analyzePosture = async () => {
-        if (
-          webcamRef.current &&
-          webcamRef.current.video.readyState === 4
-        ) {
+        if (webcamRef.current && webcamRef.current.video.readyState === 4) {
           const video = webcamRef.current.video;
           const poses = await detector.estimatePoses(video);
 
           if (poses.length > 0) {
             const landmarks = poses[0].keypoints;
 
-            const leftEye = landmarks.find((pt) => pt.name === 'left_eye');
-            const rightEye = landmarks.find((pt) => pt.name === 'right_eye');
-            const leftShoulder = landmarks.find((pt) => pt.name === 'left_shoulder');
-            const rightShoulder = landmarks.find((pt) => pt.name === 'right_shoulder');
+            const leftEye = landmarks.find(pt => pt.name === 'left_eye');
+            const rightEye = landmarks.find(pt => pt.name === 'right_eye');
+            const leftShoulder = landmarks.find(pt => pt.name === 'left_shoulder');
+            const rightShoulder = landmarks.find(pt => pt.name === 'right_shoulder');
 
             if (leftEye && rightEye && leftShoulder && rightShoulder) {
               const avgEyeY = (leftEye.y + rightEye.y) / 2;
@@ -43,6 +38,12 @@ const App = () => {
               } else {
                 setPostureStatus('Good Posture');
               }
+              missedDetections.current = 0; // Reset missed detection count
+            }
+          } else {
+            missedDetections.current += 1;
+            if (missedDetections.current >= 3) { // 3 failed detections = 3 seconds
+              setPostureStatus('Unknown');
             }
           }
         }
