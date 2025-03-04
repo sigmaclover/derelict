@@ -60,7 +60,7 @@ class PostureAnalyzer(QWidget):
             eye_y = (left_eye.y + right_eye.y) / 2
             
             y_distance = abs(eye_y - shoulder_y)
-            print(y_distance)
+            #print(y_distance)
             
             if y_distance < 0.39:
                 posture_status = "Poor Posture"
