@@ -4,8 +4,8 @@
   "private": true,
   "homepage": "https://sigmaclover.github.io/derelict",
   "dependencies": {
-    "@tensorflow-models/pose-detection": "^1.0.0",
-    "@tensorflow/tfjs": "^4.0.0",
+    "@tensorflow-models/pose-detection": "1.0.1",
+    "@tensorflow/tfjs": "3.18.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
